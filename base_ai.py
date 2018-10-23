@@ -46,11 +46,28 @@ class BaseAI:
     print("AI- Warning: No apple found")
     return -1, -1
 
+  #return a three item list of where each move would place the head of the snek
+  #array item 0 is left turn, item 1 forward turn, and 2 right turn
+  def get_potential_moves(self):
+    res = []
+    turn = -1
+    for i in range(3):
+      x, y, new_dir = self.snek.move_pos(turn)
+      res.append([x, y])
+      turn += 1
+
+    return res
+
+  #get the distance between cells
+  def dist_to(self, x1, y1, x2, y2):
+    return ((x1-x2)**2 + (y1-y2)**2)**0.5;
+
   #--- private methods ---
   #don't overload these
 
   #check if we are dead
   def is_dead(self):
+    print("AI: checking if we are dead");
     prog = self._api.check_progress()
     if self.snek.prog_name in prog:
       return prog[self.snek.prog_name]["isDead"]
@@ -94,7 +111,7 @@ class BaseAI:
       print("|",end="", flush=True)
       for x in range(35):
         if board[y][x] == "EMPTY":
-          print(" ", end="", flush=True)
+          print(".", end="", flush=True)
         else:
           if board[y][x] == "RED_SNEK":
             print("\x1b[31m", end="")

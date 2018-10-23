@@ -45,7 +45,7 @@ class API:
   #wait for the board state to change from prev_board, and return when it does
   def wait_for_change(self):
     #get new board
-    print("API: waiting for board to change", end="")
+    print("API: waiting for board to change", end="", flush=True)
     self.update_board()
     #wait for a change
     while self.board == self.prev_board:

@@ -2,9 +2,10 @@ from api import API
 from snek import Snek
 from base_ai import BaseAI
 from keyboard_ai import KeyboardAI
+from smart_ai import SmartAI
 
 #The URL to use
-API_URL = "http://fairviewcodekatasnek.herokuapp.com"
+API_URL = "http://fairviewcodekatasnek.herokuapp.com/test"
 #The key to use
 API_KEY = "YELLOW5"
 #the name of the snek
@@ -15,9 +16,9 @@ SNEK_PROG_NAME = "YELLOW"
 DRAW_BOARD = True
 
 #the ai's to use
-AIS = [BaseAI, KeyboardAI]
+AIS = [BaseAI, KeyboardAI, SmartAI]
 #the ai names to choose from
-AI_NAMES = ["BaseAI", "KeyboardAI"]
+AI_NAMES = ["BaseAI", "KeyboardAI", "SmartAI"]
 
 def main():
   #main snek - in the lower right corner, heading left

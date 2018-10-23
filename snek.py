@@ -35,3 +35,31 @@ class Snek:
     #move down
     elif self.direction == 3:
       self.y += 1
+
+  #get the new pos where a move would place the snek
+  def move_pos(self, turn):
+    #adjust direction
+    direct = self.direction + turn
+    #normalize direction
+    if direct > 3:
+      direct -= 4
+    elif direct < 0:
+      direct += 4
+
+    x = self.x
+    y = self.y
+    #move snek based on current direction
+    #move left
+    if direct == 0:
+      x -= 1
+    #move up
+    elif direct == 1:
+      y -= 1
+    #move right
+    elif direct == 2:
+      x += 1
+    #move down
+    elif direct == 3:
+      y += 1
+
+    return x, y, direct
