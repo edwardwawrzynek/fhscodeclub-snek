@@ -4,13 +4,15 @@ from base_ai import BaseAI
 from keyboard_ai import KeyboardAI
 
 #The URL to use
-API_URL = "http://fairviewcodekatasnek.herokuapp.com/test"
+API_URL = "http://fairviewcodekatasnek.herokuapp.com"
 #The key to use
 API_KEY = "YELLOW5"
 #the name of the snek
 SNEK_NAME = "YELLOW_SNEK"
 #the name of the snek in /progress
 SNEK_PROG_NAME = "YELLOW"
+#whether to draw the board for debug
+DRAW_BOARD = True
 
 #the ai's to use
 AIS = [BaseAI, KeyboardAI]
@@ -23,7 +25,7 @@ def main():
   #api object
   api = API(API_URL, API_KEY)
   #create the ai
-  ai = choose_ai()(snek, api)
+  ai = choose_ai()(snek, api, DRAW_BOARD)
   #run the ai
   ai.run()
 

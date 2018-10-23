@@ -6,9 +6,10 @@ import random
 
 class BaseAI:
   #don't override constructor
-  def __init__(self, snek, api):
+  def __init__(self, snek, api, draw_board):
     #the api object - don't use this directly
     self._api = api
+    self._draw_board = draw_board
 
     #--- these attributes can be accessed by AI's ---
     #the snek object
@@ -57,6 +58,8 @@ class BaseAI:
 
   #make the ai's move
   def run_move(self):
+    if self._draw_board:
+      self.print_board()
     print("Snek: Pos: " + str(self.snek.x) + ", " + str(self.snek.y))
     print("Snek: Direction: " + str(self.snek.direction))
     if self.is_dead():
@@ -82,3 +85,26 @@ class BaseAI:
       self._api.wait_for_change()
       #and make move
       self.run_move()
+
+  #debug - print the board in the terminal
+  def print_board(self):
+    board = self.get_board()
+    print("-" * 37)
+    for y in range(35):
+      print("|",end="", flush=True)
+      for x in range(35):
+        if board[y][x] == "EMPTY":
+          print(" ", end="", flush=True)
+        else:
+          if board[y][x] == "RED_SNEK":
+            print("\x1b[31m", end="")
+          if board[y][x] == "GREEN_SNEK":
+            print("\x1b[32m", end="")
+          if board[y][x] == "BLUE_SNEK":
+            print("\x1b[34m", end="")
+          if board[y][x] == "YELLOW_SNEK":
+            print("\x1b[33m", end="")
+          print(u"\u2588\x1b[0m", end="", flush=True)
+
+      print("|")
+    print("-" * 37)
