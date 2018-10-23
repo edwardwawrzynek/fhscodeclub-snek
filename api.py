@@ -54,4 +54,4 @@ class API:
       #get new board
       self.update_board()
       print(".", end="", flush=True)
-    print("\nAPI: board change detected...")
+    print("\nAPI: board change detected")

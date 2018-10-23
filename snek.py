@@ -20,7 +20,7 @@ class Snek:
     if self.direction > 3:
       self.direction -= 4
     elif self.direction < 0:
-      self.direction += 0
+      self.direction += 4
 
     #move snek based on current direction
     #move left

@@ -1,5 +1,6 @@
 from snek import Snek
 from api import API
+import random
 
 #a base class for other ai's
 
@@ -12,28 +13,33 @@ class BaseAI:
     #--- these attributes can be accessed by AI's ---
     #the snek object
     self.snek = snek
-    #the board
-    self.board = self._api.board
 
   #main ai function - based on the board, decide on a move, and return it
   #the move returned is either a -1, 0, or 1, for left, forwards, or right
   #new AI's should override this
   def make_move(self):
-    #place overriden ai here
+    #place overriden ai here - self.get_board, self.is_empty, self.get_apple, and other functions are useful here,
+    #along with self.snek.x and self.snek.y
 
-    #always go forwards
-    return 0
+    #make a random move
+    return random.randrange(-1,2,1)
+
+  #get the board state
+  def get_board(self):
+    return self._api.board
 
   #check whether a spot on the board is empty (or contains an apple) or not
   def is_empty(self, x, y):
-    return self.board[y][x] == "EMPTY" or self.board[y][x] == "APPLE"
+    if x < 0 or x >= 35 or y < 0 or y >= 35:
+      return False
+    return self.get_board()[y][x] == "EMPTY" or self.get_board()[y][x] == "APPLE"
 
   #get the position of the apple on the board - return it as an (x,y) tuple,
   #or return -1,-1 if no apple was found
   def find_apple(self):
     for x in range(35):
       for y in range(35):
-        if self.board[y][x] == "APPLE":
+        if self.get_board()[y][x] == "APPLE":
           return x, y
     #no apple?
     print("AI- Warning: No apple found")
@@ -51,11 +57,14 @@ class BaseAI:
 
   #make the ai's move
   def run_move(self):
+    print("Snek: Pos: " + str(self.snek.x) + ", " + str(self.snek.y))
+    print("Snek: Direction: " + str(self.snek.direction))
     if self.is_dead():
-      print("AI: WARNING: OUR SNEK IS DEAD")
+      print("AI: WARNING: THE SNEK IS DEAD")
     move = self.make_move()
     print("AI: making move: " + str(move))
     self._api.send_turn(move)
+    self.snek.move(move)
     print("AI: done")
 
   #start the ai loop
