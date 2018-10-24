@@ -7,7 +7,7 @@ from debug import debug
 
 class BaseAI:
   #don't override constructor
-  def __init__(self, snek, api, draw_board):
+  def __init__(self, snek, api, draw_board, enemy_sneks):
     #the api object - don't use this directly
     self._api = api
     self._draw_board = draw_board
@@ -15,6 +15,8 @@ class BaseAI:
     #--- these attributes can be accessed by AI's ---
     #the snek object
     self.snek = snek
+    #the enemy sneks
+    self.enemy_sneks = enemy_sneks
 
   #main ai function - based on the board, decide on a move, and return it
   #the move returned is either a -1, 0, or 1, for left, forwards, or right
@@ -76,6 +78,9 @@ class BaseAI:
 
   #make the ai's move
   def run_move(self):
+    #update enemy sneks
+    for s in self.enemy_sneks:
+      s.update_head(self._api.board)
     if self._draw_board:
       self.print_board()
     debug("Snek: Pos: " + str(self.snek.x) + ", " + str(self.snek.y))
@@ -97,7 +102,7 @@ class BaseAI:
     #and loop
     while True:
       #wait for the board to change
-      self._api.wait_for_change()
+      self._api.wait_for_change(self.snek.prog_name)
       #and make move
       self.run_move()
 

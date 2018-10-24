@@ -1,5 +1,5 @@
 from api import API
-from snek import Snek
+from snek import Snek, EnemySnek
 from base_ai import BaseAI
 from keyboard_ai import KeyboardAI
 from smart_ai import SmartAI
@@ -19,13 +19,23 @@ AIS = [BaseAI, KeyboardAI, SmartAI]
 #the ai names to choose from
 AI_NAMES = ["BaseAI", "KeyboardAI", "SmartAI"]
 
+#specify color and ai name on command line
+
 if len(sys.argv) != 3:
   print("usage: main.py [snek_color] [AI name]\nsnek_color - RED, GREEN, etc\nAI name - BaseAI, KeyboardAI, SmartAI, etc")
   exit(0)
+
 SNEK_INDEX = SNEK_PROG_NAMES.index(sys.argv[1])
 CHOOSEN_AI = AIS[AI_NAMES.index(sys.argv[2])]
 
-
+#create the array of enemy sneks
+ENEMY_SNEKS = []
+for i in range(len(SNEK_LOCATIONS)):
+  if i != SNEK_INDEX:
+    ENEMY_SNEKS.append(EnemySnek(
+      SNEK_LOCATIONS[i][0], SNEK_LOCATIONS[i][1],
+      SNEK_NAMES[i]
+    ))
 
 #The URL to use
 #API_URL = "http://fairviewcodekatasnek.herokuapp.com/test"
@@ -50,18 +60,8 @@ def main():
   #reset
   api.reset_test()
   #create the ai
-  ai = CHOOSEN_AI(snek, api, DRAW_BOARD)
+  ai = CHOOSEN_AI(snek, api, DRAW_BOARD, ENEMY_SNEKS)
   #run the ai
   ai.run()
-
-#choose an ai from the command line
-def choose_ai():
-  while True:
-    ai_name = input("Choose an ai to use(" + str(AI_NAMES)[1:-1] + "):")
-    try:
-      return AIS[AI_NAMES.index(ai_name)]
-    except ValueError:
-      print("No such AI:" + ai_name)
-      continue
 
 main()

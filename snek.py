@@ -1,3 +1,5 @@
+from debug import debug
+
 #A class representing a snek, its current position, and direction
 class Snek:
   def __init__(self, x, y, direction, name, prog_name):
@@ -63,3 +65,32 @@ class Snek:
       y += 1
 
     return x, y, direct
+
+# a class representing an enemy snek - for tracking their heads
+class EnemySnek:
+  #init with their x and y pos
+  def __init__(self, x, y, name):
+    self.x = x
+    self.y = y
+    #mark pos's that they occupy
+    self.pos = [[x, y]]
+    #the name (with _SNEK - RED_SNEK, for example)
+    self.name = name
+
+  #from a board, update their head's position
+  #do this by seeing which squares are occupied now that weren't before
+  def update_head(self, board):
+    #new array of pos
+    new_pos = []
+    for x in range(35):
+      for y in range(35):
+        #this square contains the snek
+        if board[y][x] == self.name:
+          #add to the new pos
+          new_pos.append([x, y])
+          #check if this is a newly occupied square
+          if not [x,y] in self.pos:
+            self.x = x
+            self.y = y
+    self.pos = new_pos
+    return

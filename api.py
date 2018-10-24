@@ -20,6 +20,8 @@ class API:
     self.prev_board = []
     #the last turn number on pos
     self.last_turn_num = 0
+    #the last submitted value
+    self.last_submit = -2
     #init the board
     debug("API: loading initial board state...")
     self.update_board()
@@ -42,6 +44,7 @@ class API:
     #don't lock up
     time.sleep(random.random()*0.2)
     params = {"turnDirection": direction, "key": self.key}
+    self.last_submit = direction
     self.last_turn_num = requests.post(self.url + "/api", params=params).json()
 
   #check the progress
@@ -65,7 +68,7 @@ class API:
     debug("\nAPI: board change detected")
 
   '''
-  def wait_for_change(self):
+  def wait_for_change(self, snek_prog_name):
     debug("API: waiting for board to change", end="", flush=True)
     while True:
       prog = self.check_progress()
@@ -74,7 +77,12 @@ class API:
       #if new turn, return
       if turn > self.last_turn_num:
         self.last_turn_num = turn
-        debug("\nAPI: board change detected")
+        debug("\nAPI: board change detected\nAPI: updating board")
+        self.update_board()
+        debug("API: done")
         return
-      print("Turn: " + str(turn) + "Last:" + str(self.last_turn_num))
       debug(".", end="", flush=True)
+      #get our entry
+      if prog[snek_prog_name]["hasSubmitted"] == False:
+        debug("API: last submit not registered, resending")
+        self.send_turn(self.last_submit)
