@@ -1,6 +1,7 @@
 from snek import Snek
 from api import API
 import random
+from debug import debug
 
 #a base class for other ai's
 
@@ -43,7 +44,7 @@ class BaseAI:
         if self.get_board()[y][x] == "APPLE":
           return x, y
     #no apple?
-    print("AI- Warning: No apple found")
+    debug("AI- Warning: No apple found")
     return -1, -1
 
   #return a three item list of where each move would place the head of the snek
@@ -67,7 +68,7 @@ class BaseAI:
 
   #check if we are dead
   def is_dead(self):
-    print("AI: checking if we are dead");
+    debug("AI: checking if we are dead");
     prog = self._api.check_progress()
     if self.snek.prog_name in prog:
       return prog[self.snek.prog_name]["isDead"]
@@ -77,23 +78,20 @@ class BaseAI:
   def run_move(self):
     if self._draw_board:
       self.print_board()
-    print("Snek: Pos: " + str(self.snek.x) + ", " + str(self.snek.y))
-    print("Snek: Direction: " + str(self.snek.direction))
+    debug("Snek: Pos: " + str(self.snek.x) + ", " + str(self.snek.y))
+    debug("Snek: Direction: " + str(self.snek.direction))
     if self.is_dead():
-      print("AI: WARNING: THE SNEK IS DEAD")
+      debug("AI: WARNING: THE SNEK IS DEAD")
     move = self.make_move()
-    print("AI: making move: " + str(move))
+    debug("AI: making move: " + str(move))
     self._api.send_turn(move)
     self.snek.move(move)
-    print("AI: done")
+    debug("AI: done")
 
   #start the ai loop
   def run(self):
-    #reset
-    self._api.reset_test()
     #update the board
     self._api.update_board()
-
     #make the first move
     self.run_move()
     #and loop
@@ -106,9 +104,9 @@ class BaseAI:
   #debug - print the board in the terminal
   def print_board(self):
     board = self.get_board()
-    print("-" * 37)
+    print("#" * 37)
     for y in range(35):
-      print("|",end="", flush=True)
+      print("#",end="", flush=True)
       for x in range(35):
         if board[y][x] == "EMPTY":
           print(".", end="", flush=True)
@@ -123,5 +121,5 @@ class BaseAI:
             print("\x1b[33m", end="")
           print(u"\u2588\x1b[0m", end="", flush=True)
 
-      print("|")
-    print("-" * 37)
+      print("#")
+    print("#" * 37)
