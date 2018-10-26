@@ -53,21 +53,6 @@ class API:
     return requests.get(self.url + "/api/progress", params=params).json()
 
   #wait for the board state to change from prev_board, and return when it does
-  '''
-  def wait_for_change(self):
-    #get new board
-    debug("API: waiting for board to change", end="", flush=True)
-    self.update_board()
-    #wait for a change
-    while self.board == self.prev_board:
-      #wait a bit so we don't overload the server
-      time.sleep(0.05)
-      #get new board
-      self.update_board()
-      debug(".", end="", flush=True)
-    debug("\nAPI: board change detected")
-
-  '''
   def wait_for_change(self, snek_prog_name):
     debug("API: waiting for board to change", end="", flush=True)
     while True:
@@ -82,7 +67,3 @@ class API:
         debug("API: done")
         return
       debug(".", end="", flush=True)
-      #get our entry
-      if prog[snek_prog_name]["hasSubmitted"] == False:
-        debug("API: last submit not registered, resending")
-        self.send_turn(self.last_submit)
