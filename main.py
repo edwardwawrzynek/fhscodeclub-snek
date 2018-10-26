@@ -48,9 +48,9 @@ SNEK_NAME = SNEK_NAMES[SNEK_INDEX]
 SNEK_PROG_NAME = SNEK_PROG_NAMES[SNEK_INDEX]
 
 #whether to draw the board for debug
-DRAW_BOARD = False
+DRAW_BOARD = True
 #whether to print out other debug information
-debug.DEBUG_ENABLED = False
+debug.DEBUG_ENABLED = True
 
 def main():
   #main snek - in the lower right corner, heading left

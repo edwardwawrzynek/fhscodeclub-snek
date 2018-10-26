@@ -63,7 +63,11 @@ class BaseAI:
 
   #get the distance between cells
   def dist_to(self, x1, y1, x2, y2):
-    return ((x1-x2)**2 + (y1-y2)**2)**0.5;
+    return ((x1-x2)**2 + (y1-y2)**2)**0.5
+
+  #check if a cell is on the board
+  def on_board(self, x, y):
+    return x>=0 and x<35 and y>=0 and y<35
 
   #--- private methods ---
   #don't overload these
@@ -111,20 +115,20 @@ class BaseAI:
     board = self.get_board()
     print("#" * 37)
     for y in range(35):
-      print("#",end="", flush=True)
+      print("#",end="", flush=False)
       for x in range(35):
         if board[y][x] == "EMPTY":
-          print(".", end="", flush=True)
+          print(".", end="", flush=False)
         else:
           if board[y][x] == "RED_SNEK":
-            print("\x1b[31m", end="")
+            print("\x1b[31m", end="", flush=False)
           if board[y][x] == "GREEN_SNEK":
-            print("\x1b[32m", end="")
+            print("\x1b[32m", end="", flush=False)
           if board[y][x] == "BLUE_SNEK":
-            print("\x1b[34m", end="")
+            print("\x1b[34m", end="", flush=False)
           if board[y][x] == "YELLOW_SNEK":
-            print("\x1b[33m", end="")
-          print(u"\u2588\x1b[0m", end="", flush=True)
+            print("\x1b[33m", end="", flush=False)
+          print(u"\u2588\x1b[0m", end="", flush=False)
 
-      print("#")
-    print("#" * 37)
+      print("#", flush=False)
+    print("#" * 37, flush=True)

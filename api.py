@@ -5,7 +5,6 @@ import requests, time
 from copy import deepcopy
 
 from debug import debug
-import time,random
 
 #the api interface
 class API:
@@ -41,8 +40,6 @@ class API:
 
   #do a turn (-1, 0, or 1)
   def send_turn(self, direction):
-    #don't lock up
-    time.sleep(random.random()*0.2)
     params = {"turnDirection": direction, "key": self.key}
     self.last_submit = direction
     self.last_turn_num = requests.post(self.url + "/api", params=params).json()
