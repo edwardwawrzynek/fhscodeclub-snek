@@ -113,7 +113,8 @@ class BaseAI:
   #debug - print the board in the terminal
   def print_board(self):
     board = self.get_board()
-    print("#" * 37)
+    print("\x1b[H", flush=False)
+    print("#" * 37, flush=False)
     for y in range(35):
       print("#",end="", flush=False)
       for x in range(35):

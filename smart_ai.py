@@ -12,7 +12,7 @@ import random
 # ~1=try to avoid, but still take some amount of risks for food
 # ~5=fairly safe avoidance
 # ~50=pretty much always avoid
-SNEK_AVOIDANCE = 2
+SNEK_AVOIDANCE = 1
 
 #the width of the area to search for sneks to avoid (5 good for fair avoidance)
 SNEK_AVOIDANCE_WIDTH = 5

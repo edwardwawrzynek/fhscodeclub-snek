@@ -38,8 +38,8 @@ for i in range(len(SNEK_LOCATIONS)):
     ))
 
 #The URL to use
-#API_URL = "http://fairviewcodekatasnek.herokuapp.com/test"
-API_URL = "http://localhost:8080"
+API_URL = "http://fairviewcodekatasnek.herokuapp.com"
+#API_URL = "http://localhost:8080"
 #The key to use
 API_KEY = SNEK_KEYS[SNEK_INDEX]
 #the name of the snek
