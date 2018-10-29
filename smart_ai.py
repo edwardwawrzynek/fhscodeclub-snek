@@ -12,7 +12,7 @@ import random
 # ~1=try to avoid, but still take some amount of risks for food
 # ~5=fairly safe avoidance
 # ~50=pretty much always avoid
-SNEK_AVOIDANCE = 1
+SNEK_AVOIDANCE = 1.2
 
 #the width of the area to search for sneks to avoid (5 good for fair avoidance)
 SNEK_AVOIDANCE_WIDTH = 5
@@ -23,8 +23,11 @@ SNEK_AVOIDANCE_WIDTH = 5
 
 EAT_RISK_AVOIDANCE = 50
 
+#how much to wait dead sneks in preemptive avoidance
+DEAD_SNEK_WEIGHT = 0.2
+
 #How much random-ness to induce
-RANDOM_PARAM = 0.4
+RANDOM_PARAM = 0.2
 
 class SmartAI(BaseAI):
   def make_move(self):
@@ -58,7 +61,7 @@ class SmartAI(BaseAI):
 
       #if the square is within range of an enemy's head, rank it lower
       for e in self.enemy_sneks:
-        if self.dist_to(m[0], m[1], e.x, e.y) < 1.01:
+        if self.dist_to(m[0], m[1], e.x, e.y) < 1.01 and e.is_alive:
           scores[-1] -= EAT_RISK_AVOIDANCE
 
       #adjust for how many sneks are in the proximity of a move - sum number of snek squares in 5x5 area, and multiply by SNEK_AVOIDANCE
@@ -82,5 +85,14 @@ class SmartAI(BaseAI):
         #make sure it is on the board - don't count cells outside board as containing enemies
         if self.on_board(x_coord, y_coord):
           if board[y_coord][x_coord] != "EMPTY" and board[y_coord][x_coord] != "APPLE" and board[y_coord][x_coord] != self.snek.name:
-            total += 1
+            enemy = False
+            #find the enemy that the square is
+            for e in self.enemy_sneks:
+              if e.prog_name == board[y_coord][x_coord]:
+                enemy = e
+                break
+            if enemy and enemy.is_alive:
+              total += DEAD_SNEK_WEIGHT
+            else:
+              total += 1
     return total

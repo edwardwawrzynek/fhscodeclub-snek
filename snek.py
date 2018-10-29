@@ -69,13 +69,21 @@ class Snek:
 # a class representing an enemy snek - for tracking their heads
 class EnemySnek:
   #init with their x and y pos
-  def __init__(self, x, y, name):
+  def __init__(self, x, y, name, prog_name):
     self.x = x
     self.y = y
     #mark pos's that they occupy
     self.pos = [[x, y]]
     #the name (with _SNEK - RED_SNEK, for example)
     self.name = name
+    #name in /progress
+    self.prog_name = prog_name
+    #if the snek is alive
+    self.is_alive = True
+
+  #kill the snek
+  def kill(self):
+    self.is_alive = False
 
   #from a board, update their head's position
   #do this by seeing which squares are occupied now that weren't before

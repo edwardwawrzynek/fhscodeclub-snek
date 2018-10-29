@@ -76,6 +76,11 @@ class BaseAI:
   def is_dead(self):
     debug("AI: checking if we are dead");
     prog = self._api.check_progress()
+    for e in self.enemy_sneks:
+      #make sure snek is in /progress
+      if e.prog_name in prog:
+        if prog[e.prog_name]["isDead"]:
+          e.kill()
     if self.snek.prog_name in prog:
       return prog[self.snek.prog_name]["isDead"]
     return False

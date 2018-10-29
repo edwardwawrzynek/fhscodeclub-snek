@@ -34,7 +34,8 @@ for i in range(len(SNEK_LOCATIONS)):
   if i != SNEK_INDEX:
     ENEMY_SNEKS.append(EnemySnek(
       SNEK_LOCATIONS[i][0], SNEK_LOCATIONS[i][1],
-      SNEK_NAMES[i]
+      SNEK_NAMES[i],
+      SNEK_PROG_NAMES[i]
     ))
 
 #The URL to use
